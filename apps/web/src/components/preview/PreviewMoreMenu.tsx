@@ -1,0 +1,200 @@
+import type { DesktopPreviewColorScheme } from "@t3tools/contracts";
+import { Minus, MoreVertical, Plus as PlusIcon, RotateCcw } from "lucide-react";
+
+import { Button } from "~/components/ui/button";
+import {
+  Menu,
+  MenuItem,
+  MenuPopup,
+  MenuShortcut,
+  MenuRadioGroup,
+  MenuRadioItem,
+  MenuGroup,
+  MenuGroupLabel,
+  MenuSeparator,
+  MenuSub,
+  MenuSubPopup,
+  MenuSubTrigger,
+  MenuTrigger,
+} from "~/components/ui/menu";
+import { Tooltip, TooltipPopup, TooltipTrigger } from "~/components/ui/tooltip";
+import { tr as translate } from "~/i18n/tr";
+import { tr } from "~/i18n/tr";
+
+const COLOR_SCHEME_OPTIONS: ReadonlyArray<{
+  value: DesktopPreviewColorScheme;
+  label: string;
+}> = [
+  { value: "system", label: tr("System") },
+  { value: "light", label: tr("Light") },
+  { value: "dark", label: tr("Dark") },
+];
+
+export interface PreviewMoreMenuActions {
+  readonly hardReload: () => void;
+  readonly setColorScheme: (colorScheme: DesktopPreviewColorScheme) => void;
+  readonly zoomIn: () => void;
+  readonly zoomOut: () => void;
+  readonly resetZoom: () => void;
+  readonly clearCookies: () => void;
+  readonly clearCache: () => void;
+  readonly openDevTools?: () => void;
+  readonly toggleNativePictureInPicture?: () => void;
+  readonly find?: () => void;
+}
+
+interface Props {
+  enabled: boolean;
+  actions: PreviewMoreMenuActions;
+  zoomFactor: number;
+  colorScheme: DesktopPreviewColorScheme;
+  deviceToolbarVisible: boolean;
+  onToggleDeviceToolbar: () => void;
+  nativePictureInPicture: boolean;
+  profileName: string | undefined;
+  findShortcutLabel?: string | null;
+  move?: { readonly label: string; readonly onMove: () => void };
+}
+
+const MenuTriggerButton = () => (
+  <Tooltip>
+    <TooltipTrigger
+      render={
+        <MenuTrigger
+          render={
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              type="button"
+              aria-label={translate("Preview menu")}
+            />
+          }
+        />
+      }
+    >
+      <MoreVertical />
+    </TooltipTrigger>
+    <TooltipPopup>{translate("More")}</TooltipPopup>
+  </Tooltip>
+);
+
+export function PreviewMoreMenu({
+  enabled,
+  actions,
+  zoomFactor,
+  colorScheme,
+  deviceToolbarVisible,
+  onToggleDeviceToolbar,
+  nativePictureInPicture,
+  profileName,
+  findShortcutLabel,
+  move,
+}: Props) {
+  const zoomLabel = `${Math.round(zoomFactor * 100)}%`;
+  const disabled = !enabled;
+  return (
+    <Menu>
+      <MenuTriggerButton />
+      <MenuPopup align="end" sideOffset={6}>
+        {actions.find ? (
+          <MenuItem onClick={actions.find} disabled={disabled}>
+            {translate("Find on page")}
+            {findShortcutLabel ? <MenuShortcut>{findShortcutLabel}</MenuShortcut> : null}
+          </MenuItem>
+        ) : null}
+        <MenuItem onClick={actions.hardReload} disabled={disabled}>
+          {translate("Hard reload")}
+        </MenuItem>
+        {actions.openDevTools ? (
+          <MenuItem onClick={actions.openDevTools} disabled={disabled}>
+            {translate("Open DevTools")}
+          </MenuItem>
+        ) : null}
+        {actions.toggleNativePictureInPicture ? (
+          <MenuItem onClick={actions.toggleNativePictureInPicture} disabled={disabled}>
+            {translate(
+              nativePictureInPicture
+                ? tr("Close separate preview window")
+                : tr("Open separate preview window"),
+            )}
+          </MenuItem>
+        ) : null}
+        {move ? <MenuItem onClick={move.onMove}>{move.label}</MenuItem> : null}
+        <MenuItem onClick={onToggleDeviceToolbar} disabled={disabled}>
+          {translate(deviceToolbarVisible ? tr("Hide device toolbar") : tr("Show device toolbar"))}
+        </MenuItem>
+        <MenuSub>
+          <MenuSubTrigger disabled={disabled}>{translate("Appearance")}</MenuSubTrigger>
+          <MenuSubPopup>
+            <MenuRadioGroup
+              value={colorScheme}
+              onValueChange={(value) => actions.setColorScheme(value as DesktopPreviewColorScheme)}
+            >
+              {COLOR_SCHEME_OPTIONS.map((option) => (
+                <MenuRadioItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuRadioItem>
+              ))}
+            </MenuRadioGroup>
+          </MenuSubPopup>
+        </MenuSub>
+        <MenuSeparator />
+        <MenuItem
+          closeOnClick={false}
+          onClick={(event: React.MouseEvent) => event.preventDefault()}
+          className="justify-between"
+          disabled={disabled}
+        >
+          <span>{translate("Zoom")}</span>
+          <span className="flex items-center gap-1">
+            <Button
+              variant="outline"
+              size="icon-xs"
+              type="button"
+              onClick={actions.zoomOut}
+              aria-label={translate("Zoom out")}
+              disabled={disabled}
+            >
+              <Minus />
+            </Button>
+            <span className="min-w-12 text-center text-xs tabular-nums text-muted-foreground">
+              {zoomLabel}
+            </span>
+            <Button
+              variant="outline"
+              size="icon-xs"
+              type="button"
+              onClick={actions.zoomIn}
+              aria-label={translate("Zoom in")}
+              disabled={disabled}
+            >
+              <PlusIcon />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              type="button"
+              onClick={actions.resetZoom}
+              aria-label={translate("Reset zoom")}
+              disabled={disabled}
+            >
+              <RotateCcw />
+            </Button>
+          </span>
+        </MenuItem>
+        <MenuSeparator />
+        <MenuGroup>
+          {profileName ? (
+            <MenuGroupLabel className="max-w-64">
+              <span className="block truncate">
+                {translate("Profile:")} {profileName}
+              </span>
+            </MenuGroupLabel>
+          ) : null}
+          <MenuItem onClick={actions.clearCookies}>{translate("Clear cookies")}</MenuItem>
+          <MenuItem onClick={actions.clearCache}>{translate("Clear cache")}</MenuItem>
+        </MenuGroup>
+      </MenuPopup>
+    </Menu>
+  );
+}
