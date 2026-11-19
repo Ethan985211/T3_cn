@@ -386,7 +386,7 @@ describe("tailscale", () => {
   it.effect("keeps nonzero exit diagnostics structured", () => {
     const layer = layerMockSpawner(() => ({
       code: 7,
-      stderr: "not logged in tskey-auth-secret-token-value",
+      stderr: "not logged in fake-tailscale-token-for-test",
     }));
 
     return Effect.gen(function* () {
@@ -401,10 +401,10 @@ describe("tailscale", () => {
       assert.equal(error.stderrLength, 43);
       assert.notProperty(error, "command");
       assert.notProperty(error, "stderr");
-      assert.notInclude(error.message, "tskey-auth-secret-token-value");
+      assert.notInclude(error.message, "fake-tailscale-token-for-test");
       assert.equal(error.message, "tailscale status exited with code 7.");
       assert.equal(error.stderrDiagnostic, "not-logged-in");
-      assertCarriesNoSecret(error, "tskey-auth-secret-token-value");
+      assertCarriesNoSecret(error, "fake-tailscale-token-for-test");
     });
   });
 
