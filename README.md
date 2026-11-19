@@ -9,7 +9,8 @@
 <p align="center">The open-source control plane for coding agents.</p>
 
 <p align="center">
-  <a href="https://t3.codes/download"><strong>Download</strong></a> ·
+  <a href="https://github.com/Ethan985211/T3_cn/releases/tag/v0.1.10-cn"><strong>中文版下载</strong></a> ·
+  <a href="https://t3.codes/download">原版下载</a> ·
   <a href="https://apps.apple.com/us/app/t3-code-remote-claude-more/id6787819824">iOS</a> ·
   <a href="https://play.google.com/store/apps/details?id=com.t3tools.t3code">Android</a> ·
   <a href="https://app.t3.codes">Web</a> ·
@@ -22,6 +23,42 @@
     <img src="./.github/readme/hero.webp" width="100%" alt="T3 Code on desktop with a finished Claude thread, next to the phone app asking to approve a command from Codex" />
   </a>
 </p>
+
+## 中文版下载 / Chinese Edition
+
+本仓库是 **T3 Code 的中文本地化版本**（`T3_cn`），基于 [pingdotgg/t3code](https://github.com/pingdotgg/t3code)。界面、菜单、设置项、提示和错误信息已汉化，功能与上游保持一致，默认界面语言为中文。
+
+### 下载
+
+- **GitHub Releases**：[T3 Code 中文版 v0.1.10](https://github.com/Ethan985211/T3_cn/releases/tag/v0.1.10-cn)。Release 页面提供源码 `.zip` / `.tar.gz`。
+- **桌面安装包**：当前版本未附带预编译安装包，可在本机按下方命令构建 Windows、macOS 或 Linux 安装包。
+
+### 构建安装包
+
+需要 Node.js 22+、pnpm 和 Rust 工具链。先安装依赖：
+
+```bash
+git clone https://github.com/Ethan985211/T3_cn.git
+cd T3_cn
+corepack enable
+pnpm install
+```
+
+然后在对应平台执行：
+
+| 平台        | 命令                        | 产物                          |
+| ----------- | --------------------------- | ----------------------------- |
+| Windows x64 | `pnpm dist:desktop:win:x64` | `release/` 下的 `.exe` 安装包 |
+| macOS       | `pnpm dist:desktop:dmg`     | `release/` 下的 `.dmg`        |
+| Linux x64   | `pnpm dist:desktop:linux`   | `release/` 下的 `.AppImage`   |
+
+只运行桌面端开发版：
+
+```bash
+pnpm dev:desktop
+```
+
+构建环境与签名说明见 [开发文档](./docs/operations/development.md)。中文界面可在设置中的语言选项切换为 English；切换回中文后无需重启。
 
 T3 Code runs the coding agents on your machine and gives them one fast interface. Start a thread at your desk, then approve the next step from your phone.
 
