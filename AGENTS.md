@@ -151,8 +151,8 @@ For mobile verification, a missing or outdated native client is an install step,
 
 - Never make a PR unless the developer explicitly asks you to do so.
 - `origin` is not always GitHub. Check `git remote get-url origin` before your first forge command and use that forge's CLI and skill. See [Forge mirror](docs/operations/development.md#forge-mirror-optional).
-- Conventional commit titles, plain language: `fix(web): new threads no longer spike CPU`.
-- Body: the problem in a sentence or two, then how you fixed it. End with the model and harness that did the work.
+- 提交标题和 PR 标题使用 Conventional Commits：英文类型前缀 + 冒号 + 简体中文描述，例如 `feat: 增加自主陪伴活动`。
+- 提交正文和 PR 正文使用简体中文；正文先用一两句话说明问题，再说明修复方式，结尾注明模型和运行环境。代码、文件路径、命令和标识符保持原样。
 - UI changes need before/after images. Motion or timing needs a short video.
 - Upload PR evidence to GitHub. Never commit PR-only screenshots or assets such as `.github/pr-assets/`.
 - One request is one PR. Split it only when the maintainer asks. Outside contributions follow the stricter [one problem per PR](CONTRIBUTING.md#one-problem) rule.
