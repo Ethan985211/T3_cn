@@ -17,8 +17,8 @@ import { tr } from "~/i18n/tr";
 
 const MODES = {
   static: "静态前缀",
-  semantic: "Semantic prefix",
-  custom: "Custom instructions",
+  semantic: "语义前缀",
+  custom: "自定义指令",
 } satisfies Record<BranchNamingMode, string>;
 
 export function BranchNamingSettings() {
