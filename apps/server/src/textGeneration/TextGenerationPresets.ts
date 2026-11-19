@@ -3,9 +3,9 @@ import type { TextGenerationPolicy } from "@t3tools/provider-core/server/textGen
 export const conventionalCommitsTextGenerationPolicy: TextGenerationPolicy = {
   kind: "conventional_commits",
   commitInstructions:
-    "Use Conventional Commits when generating commit subjects. Prefer the narrowest accurate type and include a scope only when it is obvious from the diff. Start the description after the colon with a lowercase word, never a proper noun or acronym, because commitlint rejects a capitalized description.",
+    "Use Conventional Commits when generating commit subjects. Prefer the narrowest accurate type and include a scope only when it is obvious from the diff. Write the description after the colon in Simplified Chinese; if the description is English, start it with a lowercase word rather than a proper noun or acronym because commitlint rejects a capitalized description.",
   changeRequestInstructions:
-    "Keep the change request title concise. Do not force Conventional Commit syntax into the title unless the repository already uses it.",
+    "Use an English Conventional Commit type prefix followed by a colon and a concise Simplified Chinese description for the change request title, for example `feat: 增加自主陪伴活动`. Write the change request body in Simplified Chinese.",
   inferRepositoryConventions: false,
 };
 

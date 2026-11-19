@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vite-plus/test";
 
-import { buildThreadTitlePrompt } from "./textGenerationPrompts.ts";
+import {
+  buildCommitMessagePrompt,
+  buildPrContentPrompt,
+  buildThreadTitlePrompt,
+} from "./textGenerationPrompts.ts";
 import { normalizeCliError } from "./textGenerationUtils.ts";
 
 describe("normalizeCliError", () => {
@@ -33,5 +37,35 @@ describe("buildThreadTitlePrompt", () => {
     expect(buildThreadTitlePrompt({ message: "Fix login", instructions: " " }).prompt).toContain(
       "3-8 words, fewer than 40 characters.",
     );
+  });
+});
+
+describe("Chinese commit and pull request prompts", () => {
+  it("requires a Conventional Commit prefix and Simplified Chinese content", () => {
+    const { prompt } = buildCommitMessagePrompt({
+      branch: "feat/companion",
+      stagedSummary: "M companion.ts",
+      stagedPatch: "+const enabled = true;",
+    });
+
+    expect(prompt).toContain("Simplified Chinese");
+    expect(prompt).toContain("feat: 增加自主陪伴活动");
+    expect(prompt).toContain("Conventional Commit type prefix");
+  });
+
+  it("requires a Chinese PR title and Chinese body headings", () => {
+    const { prompt } = buildPrContentPrompt({
+      baseBranch: "main",
+      headBranch: "feat/companion",
+      commitSummary: "feat: 增加自主陪伴活动",
+      diffSummary: "M companion.ts",
+      diffPatch: "+const enabled = true;",
+    });
+
+    expect(prompt).toContain("Simplified Chinese");
+    expect(prompt).toContain("feat: 增加自主陪伴活动");
+    expect(prompt).toContain("## 摘要");
+    expect(prompt).toContain("## 测试");
+    expect(prompt).not.toContain("## Summary");
   });
 });

@@ -35,6 +35,8 @@ export function buildCommitMessagePrompt(input: CommitMessagePromptInput) {
       : "Return a JSON object with keys: subject, body.",
     "Rules:",
     "- subject must be imperative, <= 72 chars, and no trailing period",
+    "- write the subject and body in Simplified Chinese, regardless of the repository's existing commit language",
+    "- keep an English Conventional Commit type prefix before the Chinese description, for example `feat: 增加自主陪伴活动`",
     "- body can be empty string or short bullet points",
     ...(wantsBranch
       ? ["- branch must be a short semantic git branch fragment for this change"]
@@ -88,20 +90,24 @@ export function buildPrContentPrompt(input: PrContentPromptInput) {
   const bodyRules = changeRequestTemplate
     ? [
         "- body must be markdown and follow the repository change request template structure",
+        "- translate the template's section headings into Simplified Chinese",
         "- fill in the template sections appropriately for this change",
         "- drop HTML comments from the template in the generated body",
         "- keep the template's markdown structure",
       ]
     : [
-        "- body must be markdown and include headings '## Summary' and '## Testing'",
-        "- under Summary, provide short bullet points",
-        "- under Testing, include bullet points with concrete checks or 'Not run' where appropriate",
+        "- body must be markdown and include headings '## 摘要' and '## 测试'",
+        "- under 摘要, provide short bullet points",
+        "- under 测试, include bullet points with concrete checks or '未运行' where appropriate",
       ];
   const prompt = [
     "You write source control change request content.",
     "This is a new writing task, not a continuation of the supplied conversation.",
     "Return a JSON object with keys: title, body.",
     "Rules:",
+    "- write the title and body in Simplified Chinese, regardless of the repository's existing language",
+    "- title must use an English Conventional Commit type prefix followed by a colon and a concise Simplified Chinese description, for example `feat: 增加自主陪伴活动`",
+    "- keep code, file paths, commands, and identifiers unchanged",
     "- title should be concise and specific",
     ...bodyRules,
     ...(threadContext
