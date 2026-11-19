@@ -2,6 +2,8 @@ import { beforeEach } from "vite-plus/test";
 import { commands } from "vite-plus/test/browser";
 
 import { initializeI18n } from "../src/i18n/initializeI18n";
+import { applyDiffLocale } from "../src/i18n/diffMessages";
+import { setTranslationLocale } from "../src/i18n/tr";
 
 declare module "vite-plus/test/browser" {
   interface BrowserCommands {
@@ -17,6 +19,11 @@ declare module "vite-plus/test/browser" {
 beforeEach(async () => {
   await commands.resetPointer();
 });
+
+// The product defaults to Chinese before settings load; browser tests assert the
+// upstream English labels, so pin the test locale explicitly.
+setTranslationLocale("en");
+applyDiffLocale("en");
 
 // The app initializes GT at startup; components using its hooks need the same here.
 initializeI18n(() => {});

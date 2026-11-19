@@ -527,5 +527,20 @@
   "No project": "无项目",
   "Choose a project": "选择项目",
   "Add project script": "添加项目脚本",
-  "Add action": "添加操作"
+  "Add action": "添加操作",
+  "Tool call": "工具调用",
+  "Show": "显示",
+  "hidden test file": "个隐藏测试文件",
+  "hidden test files": "个隐藏测试文件",
+  "Read file": "读取文件",
+  "Web search": "网络搜索",
+  "Thought": "思考",
+  "Compacting context": "正在压缩上下文",
+  "Context compacted": "上下文已压缩",
+  "Context compaction failed": "上下文压缩失败",
+  "Context compaction stopped": "上下文压缩已停止",
+  "Diff scope": "差异范围",
+  "vs": "对比",
+  "Loading": "加载中",
+  "Show more": "显示更多"
 }

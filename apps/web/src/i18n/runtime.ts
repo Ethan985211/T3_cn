@@ -9,6 +9,7 @@ import {
 import { initializeI18n } from "./initializeI18n";
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES } from "./locales";
 import { setTranslationLocale } from "./tr";
+import { applyDiffLocale } from "./diffMessages";
 
 type LocaleTranslations = Awaited<ReturnType<typeof getTranslationsSnapshot>>;
 
@@ -60,6 +61,7 @@ function applyLanguageSetting(): void {
     DEFAULT_LOCALE,
   );
   setTranslationLocale(requestedLocale);
+  applyDiffLocale(requestedLocale);
   void whenLocaleReady();
 }
 

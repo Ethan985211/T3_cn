@@ -3656,10 +3656,10 @@ export default function Sidebar({ routeReveal }: { routeReveal: SidebarRouteReve
                           {/* Plus means "add", so revealing more uses a chevron. */}
                           <ChevronDownIcon aria-hidden className="size-4 shrink-0" />
                           {olderSettledShelf.loading
-                            ? "Loading"
+                            ? tr("Loading")
                             : olderSettledShelf.failed
                               ? tr("Could not load older threads. Retry")
-                              : `Show ${Math.min(hiddenSettledCount, SETTLED_TAIL_PAGE_COUNT)} more`}
+                              : `${tr("Show more")} (${Math.min(hiddenSettledCount, SETTLED_TAIL_PAGE_COUNT)})`}
                         </button>
                       </li>
                     ) : null}

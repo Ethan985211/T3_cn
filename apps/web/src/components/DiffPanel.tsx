@@ -434,23 +434,23 @@ export default function DiffPanel({
       : undefined;
   const selectedGitScopeLabel =
     selectedCommitSha !== null
-      ? (selectedCommitSubject ?? `Commit ${selectedCommitSha.slice(0, 7)}`)
+      ? (selectedCommitSubject ?? `${translate("Commit")} ${selectedCommitSha.slice(0, 7)}`)
       : selectedGitScope === "unstaged"
-        ? "Uncommitted"
-        : "Changes";
+        ? translate("Uncommitted")
+        : translate("Changes");
   const selectedScopeLabel = toolCallSelection
-    ? "Tool call"
+    ? translate("Tool call")
     : selectedRunId === null
       ? selectedCommitSha !== null
-        ? (selectedCommitSubject ?? "Commit")
+        ? (selectedCommitSubject ?? translate("Commit"))
         : selectedGitScopeLabel
       : selectedTurn?.runId === latestTurn?.runId
-        ? "Latest turn"
-        : `Turn ${selectedCheckpointTurnCount ?? "?"}`;
+        ? translate("Latest turn")
+        : `${translate("Turn")} ${selectedCheckpointTurnCount ?? "?"}`;
   const reviewSectionTitle = toolCallSelection
-    ? "Tool call"
+    ? translate("Tool call")
     : selectedTurn
-      ? `Turn ${selectedCheckpointTurnCount ?? "?"}`
+      ? `${translate("Turn")} ${selectedCheckpointTurnCount ?? "?"}`
       : selectedGitScopeLabel;
   const headerCommitSha = selectedRunId === null ? selectedCommitSha : null;
   const selectedCommitUrl =
@@ -842,7 +842,7 @@ export default function DiffPanel({
           <DropdownMenuTrigger
             render={<Button size="xs" variant="secondary" />}
             className={cn("max-w-full", headerCommitSha !== null && "min-w-0 shrink")}
-            aria-label={`Diff scope: ${selectedScopeLabel}`}
+            aria-label={`${translate("Diff scope")}：${selectedScopeLabel}`}
             data-workspace-focus-default
           >
             <span className="truncate">{selectedScopeLabel}</span>
@@ -1281,7 +1281,7 @@ export default function DiffPanel({
             </TooltipTrigger>
             <TooltipPopup side="top">
               {hideTestFiles
-                ? `Show ${testFileCount} hidden test ${testFileCount === 1 ? "file" : "files"}`
+                ? `${translate("Show")} ${testFileCount} ${translate(testFileCount === 1 ? "hidden test file" : "hidden test files")}`
                 : tr("Hide test files")}
             </TooltipPopup>
           </Tooltip>

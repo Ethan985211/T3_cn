@@ -79,6 +79,7 @@ import {
 import { isWindowsAbsolutePath } from "@t3tools/shared/path";
 import { tr } from "~/i18n/tr";
 import { translateLegacyMessage } from "~/i18n/legacyMessages";
+import { translateWorkLogLabel } from "~/i18n/workLog";
 
 export function timelineEntryRunId(entry: TimelineEntry): RunId | null {
   if (entry.kind === "message") {
@@ -102,14 +103,15 @@ function workEntryIsActiveTurnActivity(entry: WorkLogEntry): boolean {
 }
 
 function singleToolCallLabel(entry: WorkLogEntry): string {
-  if (entry.itemType === "reasoning") return entry.detail?.trim().replace(/\s+/g, " ") || "Thought";
+  if (entry.itemType === "reasoning")
+    return entry.detail?.trim().replace(/\s+/g, " ") || tr("Thought");
   const toolPresentation = resolveWorkEntryToolPresentation(entry, "completed");
   if (toolPresentation) return toolPresentation.displayName;
   const item = entry.structuredPayload;
   const title =
     item?.type === "dynamic_tool" ? dynamicToolTitle(item.toolName, item.input, item.title) : null;
   if (title) return title;
-  if (entry.itemType === "web_search") return entry.toolTitle ?? "Web search";
+  if (entry.itemType === "web_search") return entry.toolTitle ?? tr("Web search");
   return workEntryDisplayLabel(entry, undefined);
 }
 
@@ -181,7 +183,7 @@ export function workEntryDisplayLabel(entry: WorkLogEntry, workspaceRoot: string
       : `${path} +${entry.changedFiles!.length - 1} more`;
   }
   if (action === "read" && !entry.viewedImagePath) {
-    return "Read file";
+    return tr("Read file");
   }
   const heading = normalizeCompactToolLabel(entry.toolTitle || entry.label);
   return `${heading.charAt(0).toUpperCase()}${heading.slice(1)}`;
@@ -2077,10 +2079,11 @@ export function deriveMessagesTimelineRows(input: {
             createdAt: timelineEntry.createdAt,
             groupedEntries: visibleGroupedEntries,
             isExpandedToolGroup: false,
-            displayLabel:
+            displayLabel: translateWorkLogLabel(
               toolGroupAction(singleEntry) === "edit"
                 ? summarizeToolGroup(visibleGroupedEntries).summary
                 : singleToolCallLabel(singleEntry),
+            ),
           });
         } else {
           const groupId = workGroupId(timelineEntry.id);
@@ -2113,10 +2116,11 @@ export function deriveMessagesTimelineRows(input: {
             groupId,
             hiddenCount: visibleGroupedEntries.length,
             expanded,
-            summary:
+            summary: translateWorkLogLabel(
               singleEntry !== null && !workLogEntryIsToolLike(singleEntry)
                 ? singleEntry.label
                 : summarizeToolGroup(visibleGroupedEntries).summary,
+            ),
             summaryKind,
             ...(groupToolSurface ? { toolSurface: groupToolSurface } : {}),
             ...(groupToolIcon ? { toolIcon: groupToolIcon } : {}),

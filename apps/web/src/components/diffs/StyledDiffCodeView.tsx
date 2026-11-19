@@ -10,7 +10,13 @@ import {
 import type { Ref } from "react";
 
 import { DIFF_SURFACE_THEME_UNSAFE_CSS } from "~/lib/diffRendering";
+import { applyDiffLocale } from "~/i18n/diffMessages";
+import { isChineseActive } from "~/i18n/tr";
 import { DiffWorkerPoolProvider } from "../DiffWorkerPoolProvider";
+
+// Ensure Pierre's own labels are localized even when this module is hot-loaded
+// before the settings subscription runs again.
+if (isChineseActive()) applyDiffLocale("zh-CN");
 
 export const DIFF_VIEW_UNSAFE_CSS = `${DIFF_SURFACE_THEME_UNSAFE_CSS}
 /* A 1fr track's automatic minimum grows with the currently mounted lines. In split

@@ -684,7 +684,7 @@ describe("deriveMessagesTimelineRows", () => {
         {
           kind: "context-compaction",
           active: true,
-          label: "Compacting before the cache expires…",
+          label: "缓存过期前正在压缩…",
         },
         "Auto-compacted before cache expiry",
       ],
@@ -1620,7 +1620,7 @@ describe("deriveMessagesTimelineRows", () => {
       "final",
     ]);
     expect(collapsed[1]).toMatchObject({ label: "Worked for 30s" });
-    expect(collapsed[3]).toMatchObject({ label: "Continued for 20s", createdAt: time(10) });
+    expect(collapsed[3]).toMatchObject({ label: "继续了 20s", createdAt: time(10) });
 
     expect(rows(new Set([segmentKey])).map((row) => row.id)).toEqual([
       "prompt",

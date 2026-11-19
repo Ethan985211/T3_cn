@@ -55,6 +55,7 @@ import * as DateTime from "effect/DateTime";
 import * as Equal from "effect/Equal";
 import { shallow } from "zustand/vanilla/shallow";
 import { tr } from "~/i18n/tr";
+import { translateWorkLogLabel } from "~/i18n/workLog";
 
 export { formatDuration } from "@t3tools/shared/orchestrationTiming";
 export {
@@ -368,7 +369,7 @@ function projectedWorkEntry(row: OrchestrationV2ProjectedTurnItem): WorkLogEntry
     case "compaction":
       return {
         ...common,
-        label: contextCompactionLabel(item),
+        label: translateWorkLogLabel(contextCompactionLabel(item)),
         sourceActivityKind: "context-compaction",
         ...(item.summary ? { detail: item.summary } : {}),
       };

@@ -584,9 +584,9 @@ function surfaceTitle(
 ): string {
   switch (surface.kind) {
     case "diff":
-      return "Diff";
+      return tr("Diff");
     case "files":
-      return "Files";
+      return tr("Files");
     case "file":
       return surface.relativePath.slice(
         Math.max(surface.relativePath.lastIndexOf("/"), surface.relativePath.lastIndexOf("\\")) + 1,
